@@ -41,7 +41,7 @@ Sub CAN_Message_Composer()
 
             If (size > (8 - bit)) Then 'need extra byte
                 temp = size
-                Do While (temp \ (8 - bit)) ' add bytes if needed
+                Do While (temp > (8 - bit)) ' add bytes if needed
                     temp = temp - (8 - bit)
                     ByteN = ByteN + 1
                     bit = 0
@@ -83,7 +83,7 @@ Sub CAN_Message_Composer()
             size = SizeRange.Cells(i, 1).value
             If (size > (bit + 1)) Then 'need extra bytes
                 temp = size
-                Do While (temp \ (bit + 1)) ' add bytes if needed
+                Do While (temp > (bit + 1)) ' add bytes if needed
                     temp = temp - (bit + 1)
                     ByteN = ByteN + 1
                     bit = 7
