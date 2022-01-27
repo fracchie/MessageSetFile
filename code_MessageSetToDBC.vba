@@ -1,6 +1,16 @@
 Sub MessageSet_to_DBC()
 
+    '======= The debug stuff
+    Debug.Print ("To detect which line (hence signal) is blocking the code, type the following")
+    Debug.Print ("?SignalNameRangeD.Cells(i,1).value")
+    Debug.Print ("")
+    Debug.Print ("To erase the whole Debug log (Immediate Window), clink in it, select all - ctrl + a - end press enter, or type the following")
+    Debug.Print ("")
+    '============
+
     Worksheets("MessageSet").Activate
+
+    Dim DebugMode As Integer: DebugMode = 1
 
     '================ external file declaration & creation ==================
     'Be sure you set a reference to the VB script run-time library. Follow https://stackoverflow.com/questions/3233203/how-do-i-use-filesystemobject-in-vba
@@ -126,6 +136,10 @@ Sub MessageSet_to_DBC()
 
         If FrameIDRangeD.Cells(i, 1) <> FrameIDRangeD.Cells(i - 1, 1) Then 'new frame
             'write new frame container
+            If (DebugMode) Then
+                Debug.Print (FrameIDRangeD.Cells(i, 1).value)
+            End If
+
             '======= BO_: ==========
             stream.WriteBlankLines (1)
             stream.WriteLine ("BO_ " + Str(CLng("&H" & FrameIDRangeD.Cells(i, 1).value)) + " " + FrameNameRangeD.Cells(i, 1).value + ": " + Replace(Str(FrameSizeRangeD.Cells(i, 1).value), Space(1), Space(0)) + " " + FrameSenderRangeD.Cells(i, 1).value)
@@ -140,6 +154,10 @@ Sub MessageSet_to_DBC()
 
         'each line is a new signal
         Dim text As String
+
+        If (DebugMode) Then
+            Debug.Print (SignalNameRangeD.Cells(i, 1).value)
+        End If
 
         'Comment
         If (SignalDescriptionRangeD.Cells(i, 1).value <> "") Then
